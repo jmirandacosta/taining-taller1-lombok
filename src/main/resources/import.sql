@@ -1,0 +1,3 @@
+/* Populate tabla personas */
+INSERT INTO personas (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, edad, sexo, celular, direccion, email, create_at) VALUES('Jorge', 'Eliecer', 'Miranda', 'Acosta', 37, 'M', 3008095938, 'Calle 48 No. 29-05','jorge.miranda@zabud.com.co', '2020-06-25');
+INSERT INTO personas (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, edad, sexo, celular, direccion, email, create_at) VALUES('Maria', 'Victoria', 'Silvera', 'Torres', 27, 'M', 3012482416, 'Calle 48 No. 29-05','mvst93@hotmail.com', '2020-06-25');
