@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zabudtecnologies.taller1.dtos.PersonaDTO;
@@ -110,7 +109,6 @@ public class PersonaController {
 	}
 	
 	@PutMapping("personas/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<?> update(@Valid @RequestBody PersonaDTO persona, @PathVariable Long id, BindingResult result) {
 		PersonaDTO personaUpdate = null;
 		Map<String, Object> response = new HashMap<>();
