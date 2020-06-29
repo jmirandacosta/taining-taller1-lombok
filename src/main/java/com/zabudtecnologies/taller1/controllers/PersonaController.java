@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zabudtecnologies.taller1.models.Persona;
-import com.zabudtecnologies.taller1.services.IPersonaService;
+import com.zabudtecnologies.taller1.dtos.PersonaDTO;
+import com.zabudtecnologies.taller1.facades.PersonaServiceFacade;
 
 /**
  * @author Jorge
@@ -38,12 +38,12 @@ import com.zabudtecnologies.taller1.services.IPersonaService;
 public class PersonaController {
 	
 	@Autowired
-	private IPersonaService personaService;
+	private PersonaServiceFacade personaService;
 	
 	@GetMapping("/personas")
 	public ResponseEntity<?> showAll(){
 		
-		List<Persona> personas = null;
+		List<PersonaDTO> personas = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
@@ -59,13 +59,13 @@ public class PersonaController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<List<Persona>>(personas, HttpStatus.OK);
+		return new ResponseEntity<List<PersonaDTO>>(personas, HttpStatus.OK);
 	}
 	
 	@PostMapping("/personas")
-	public ResponseEntity<?> create(@Valid @RequestBody Persona persona, BindingResult result) {
+	public ResponseEntity<?> create(@Valid @RequestBody PersonaDTO persona, BindingResult result) {
 		
-		Persona personaNew = null;
+		PersonaDTO personaNew = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		if (result.hasErrors()) {
@@ -92,7 +92,7 @@ public class PersonaController {
 	
 	@GetMapping("/personas/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
-		Persona persona = null;
+		PersonaDTO persona = null;
 		Map<String, Object> response = new HashMap<>();
 
 		try {
@@ -106,13 +106,13 @@ public class PersonaController {
 			response.put("mensaje", "La persona ID: ".concat(id.toString().concat(" no existe en la base de datos!")));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Persona>(persona, HttpStatus.OK);
+		return new ResponseEntity<PersonaDTO>(persona, HttpStatus.OK);
 	}
 	
 	@PutMapping("personas/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<?> update(@Valid @RequestBody Persona persona, @PathVariable Long id, BindingResult result) {
-		Persona personaUpdate = null;
+	public ResponseEntity<?> update(@Valid @RequestBody PersonaDTO persona, @PathVariable Long id, BindingResult result) {
+		PersonaDTO personaUpdate = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		if (result.hasErrors()) {
@@ -124,7 +124,7 @@ public class PersonaController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
 		
-		Persona personaActual = personaService.findById(id);
+		PersonaDTO personaActual = personaService.findById(id);
 
 		if (personaActual == null) {
 			response.put("mensaje", "Error: no se pudo editar, la persona ID: "
@@ -141,7 +141,7 @@ public class PersonaController {
 			personaActual.setSexo(persona.getSexo());
 			personaActual.setDireccion(persona.getDireccion());
 			personaActual.setCelular(persona.getCelular());
-			
+	
 			personaUpdate = personaService.save(personaActual);
 
 		} catch (DataAccessException e) {
