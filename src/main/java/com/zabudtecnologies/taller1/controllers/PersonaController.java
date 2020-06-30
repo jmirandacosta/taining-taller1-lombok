@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zabudtecnologies.taller1.dtos.PersonaDTO;
 import com.zabudtecnologies.taller1.facades.PersonaServiceFacade;
 
@@ -38,6 +39,8 @@ public class PersonaController {
 	
 	@Autowired
 	private PersonaServiceFacade personaService;
+	
+	ObjectMapper objectMapper = new ObjectMapper();
 	
 	@GetMapping("/personas")
 	public ResponseEntity<?> showAll(){
@@ -131,14 +134,10 @@ public class PersonaController {
 		}
 
 		try {
-			personaActual.setPrimerNombre(persona.getPrimerNombre());
-			personaActual.setSegundoNombre(persona.getSegundoNombre());
-			personaActual.setPrimerApellido(persona.getSegundoApellido());
-			personaActual.setSegundoApellido(persona.getSegundoApellido());
-			personaActual.setEdad(persona.getEdad());
-			personaActual.setSexo(persona.getSexo());
-			personaActual.setDireccion(persona.getDireccion());
-			personaActual.setCelular(persona.getCelular());
+					
+			Long identificador  = personaActual.getId();
+			personaActual = objectMapper.convertValue(persona, PersonaDTO.class);
+			personaActual.setId(identificador);
 	
 			personaUpdate = personaService.save(personaActual);
 
